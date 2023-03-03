@@ -1,4 +1,4 @@
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     instruction::{
         builders::{CreateOrUpdateBuilder, PuffRuleSetBuilder, WriteToBufferBuilder},
         CreateOrUpdateArgs, InstructionBuilder, PuffRuleSetArgs, WriteToBufferArgs,
@@ -8,9 +8,9 @@ use mpl_token_auth_rules::{
 };
 use rmp_serde::Serializer;
 use serde::Serialize;
-use solana_program::{instruction::Instruction, pubkey::Pubkey};
-use solana_program_test::{BanksClientError, ProgramTest, ProgramTestContext};
-use solana_sdk::{
+use safecoin_program::{instruction::Instruction, pubkey::Pubkey};
+use safecoin_program_test::{BanksClientError, ProgramTest, ProgramTestContext};
+use safecoin_sdk::{
     compute_budget::ComputeBudgetInstruction, program_pack::Pack, signature::Signer,
     signer::keypair::Keypair, system_instruction, transaction::Transaction,
 };
@@ -193,7 +193,7 @@ impl ToString for PayloadKey {
 }
 
 pub fn program_test() -> ProgramTest {
-    ProgramTest::new("mpl_token_auth_rules", mpl_token_auth_rules::id(), None)
+    ProgramTest::new("lpl_token_auth_rules", lpl_token_auth_rules::id(), None)
 }
 
 #[macro_export]
@@ -220,7 +220,7 @@ pub async fn create_rule_set_on_chain_with_loc(
 ) -> Pubkey {
     // Find RuleSet PDA.
     let (rule_set_addr, _rule_set_bump) =
-        mpl_token_auth_rules::pda::find_rule_set_address(context.payer.pubkey(), rule_set_name);
+        lpl_token_auth_rules::pda::find_rule_set_address(context.payer.pubkey(), rule_set_name);
 
     // Serialize the RuleSet using RMP serde.
     let mut serialized_rule_set = Vec::new();
@@ -291,13 +291,13 @@ pub async fn create_big_rule_set_on_chain_with_loc(
     column: u32,
 ) -> Pubkey {
     // Find RuleSet PDA.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         rule_set_name.clone(),
     );
 
     let (buffer_pda, _buffer_bump) =
-        mpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
+        lpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
 
     // Serialize the RuleSet using RMP serde.
     let mut serialized_rule_set = Vec::new();
@@ -540,10 +540,10 @@ macro_rules! assert_custom_error {
         );
 
         match $error {
-            solana_program_test::BanksClientError::TransactionError(
-                solana_sdk::transaction::TransactionError::InstructionError(
+            safecoin_program_test::BanksClientError::TransactionError(
+                safecoin_sdk::transaction::TransactionError::InstructionError(
                     0,
-                    solana_program::instruction::InstructionError::Custom(x),
+                    safecoin_program::instruction::InstructionError::Custom(x),
                 ),
             ) => match num_traits::FromPrimitive::from_i32(x as i32) {
                 Some($matcher) => assert!(true),
@@ -583,12 +583,12 @@ pub async fn create_mint(
             system_instruction::create_account(
                 &context.payer.pubkey(),
                 &mint.pubkey(),
-                rent.minimum_balance(spl_token::state::Mint::LEN),
-                spl_token::state::Mint::LEN as u64,
-                &spl_token::id(),
+                rent.minimum_balance(safe_token::state::Mint::LEN),
+                safe_token::state::Mint::LEN as u64,
+                &safe_token::id(),
             ),
-            spl_token::instruction::initialize_mint(
-                &spl_token::id(),
+            safe_token::instruction::initialize_mint(
+                &safe_token::id(),
                 &mint.pubkey(),
                 manager,
                 freeze_authority,
@@ -613,11 +613,11 @@ pub async fn create_associated_token_account(
 
     let tx = Transaction::new_signed_with_payer(
         &[
-            spl_associated_token_account::instruction::create_associated_token_account(
+            safe_associated_token_account::instruction::create_associated_token_account(
                 &context.payer.pubkey(),
                 &wallet.pubkey(),
                 token_mint,
-                &spl_token::ID,
+                &safe_token::ID,
             ),
         ],
         Some(&context.payer.pubkey()),
@@ -628,7 +628,7 @@ pub async fn create_associated_token_account(
     // connection.send_and_confirm_transaction(&tx)?;
     context.banks_client.process_transaction(tx).await.unwrap();
 
-    Ok(spl_associated_token_account::get_associated_token_address(
+    Ok(safe_associated_token_account::get_associated_token_address(
         &wallet.pubkey(),
         token_mint,
     ))
@@ -654,10 +654,10 @@ pub fn create_test_merkle_tree_from_one_leaf(leaf: &Pubkey, levels: usize) -> Me
     for i in 0..levels {
         if computed_hash <= proof[i] {
             // Hash(current computed hash + current element of the proof).
-            computed_hash = solana_program::keccak::hashv(&[&[0x01], &computed_hash, &proof[i]]).0;
+            computed_hash = safecoin_program::keccak::hashv(&[&[0x01], &computed_hash, &proof[i]]).0;
         } else {
             // Hash(current element of the proof + current computed hash).
-            computed_hash = solana_program::keccak::hashv(&[&[0x01], &proof[i], &computed_hash]).0;
+            computed_hash = safecoin_program::keccak::hashv(&[&[0x01], &proof[i], &computed_hash]).0;
         }
 
         proof.push(computed_hash)

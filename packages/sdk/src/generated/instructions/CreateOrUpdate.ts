@@ -6,7 +6,7 @@
  */
 
 import * as beet from '@metaplex-foundation/beet';
-import * as web3 from '@solana/web3.js';
+import * as web3 from '@safecoin/web3.js';
 import { CreateOrUpdateArgs, createOrUpdateArgsBeet } from '../types/CreateOrUpdateArgs';
 
 /**

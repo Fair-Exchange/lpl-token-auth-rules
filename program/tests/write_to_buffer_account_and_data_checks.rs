@@ -2,15 +2,15 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::WriteToBufferBuilder, InstructionBuilder, WriteToBufferArgs},
     state::{Rule, RuleSetV1},
 };
 use rmp_serde::Serializer;
 use serde::Serialize;
-use solana_program_test::tokio;
-use solana_sdk::{signature::Signer, signer::keypair::Keypair, transaction::Transaction};
+use safecoin_program_test::tokio;
+use safecoin_sdk::{signature::Signer, signer::keypair::Keypair, transaction::Transaction};
 use utils::{program_test, Operation};
 
 #[tokio::test]
@@ -48,7 +48,7 @@ async fn write_to_buffer_payer_not_signer_panics() {
     let serialized_rule_set_chunk = serialized_rule_set.chunks(100).next().unwrap();
 
     let (buffer_pda, _buffer_bump) =
-        mpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
+        lpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
 
     // Create a `write_to_buffer` instruction.
     let other_payer = Keypair::new();
@@ -113,7 +113,7 @@ async fn write_to_buffer_wrong_pda_fails() {
     // Find buffer PDA using WRONG creator for seed.
     let wrong_creator = Keypair::new();
     let (buffer_pda, _buffer_bump) =
-        mpl_token_auth_rules::pda::find_buffer_address(wrong_creator.pubkey());
+        lpl_token_auth_rules::pda::find_buffer_address(wrong_creator.pubkey());
 
     // Create a `write_to_buffer` instruction.
     let write_to_buffer_ix = WriteToBufferBuilder::new()

@@ -1,22 +1,22 @@
 import { encode, decode } from '@msgpack/msgpack';
-import { createTokenAuthorizationRules, validateOperation } from './helpers/mpl-token-auth-rules';
-import { Keypair, Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import { createTokenAuthorizationRules, validateOperation } from './helpers/lpl-token-auth-rules';
+import { Keypair, Connection, LAMPORTS_PER_SAFE, PublicKey } from '@safecoin/web3.js';
 import { Command, program } from "commander";
 import log from "loglevel";
 import * as fs from 'fs';
 import { findRuleSetPDA } from './helpers/pda';
 import { Payload, RuleSetHeader, ruleSetHeaderBeet, ruleSetRevisionMapV1Beet } from '../../packages/sdk/src/generated';
-import { getLatestRuleSet } from '../../packages/sdk/src/mpl-token-auth-rules';
+import { getLatestRuleSet } from '../../packages/sdk/src/lpl-token-auth-rules';
 
 program
     .command("create")
     .option(
         "-e, --env <string>",
-        "Solana cluster env name",
+        "Safecoin cluster env name",
         "devnet", //mainnet-beta, testnet, devnet
     )
     .option("-r, --rpc <string>", "The endpoint to connect to.")
-    .option("-k, --keypair <path>", `Solana wallet location`)
+    .option("-k, --keypair <path>", `Safecoin wallet location`)
     .option("-l, --log-level <string>", "log level", setLogLevel)
     .option("-n, --name <string>", "The name of the ruleset.")
     .option("-rs, --ruleset <string>", "The ruleset json file.")
@@ -25,11 +25,11 @@ program
         let payer = loadKeypair(keypair);
         const connection = new Connection(rpc, "finalized");
 
-        // Airdrop some Sol if we're on localnet.
-        if (rpc == "http://localhost:8899") {
+        // Airdrop some Safe if we're on localnet.
+        if (rpc == "http://localhost:8328") {
             const airdropSignature = await connection.requestAirdrop(
                 payer.publicKey,
-                10 * LAMPORTS_PER_SOL
+                10 * LAMPORTS_PER_SAFE
             );
             await connection.confirmTransaction(airdropSignature);
         }
@@ -49,11 +49,11 @@ program
     .command("validate")
     .option(
         "-e, --env <string>",
-        "Solana cluster env name",
+        "Safecoin cluster env name",
         "devnet", //mainnet-beta, testnet, devnet
     )
     .option("-r, --rpc <string>", "The endpoint to connect to.")
-    .option("-k, --keypair <path>", `Solana wallet location`)
+    .option("-k, --keypair <path>", `Safecoin wallet location`)
     .option("-l, --log-level <string>", "log level", setLogLevel)
     .option("-n, --name <string>", "The name of the ruleset.")
     .option("-op, --operation <string>", "The operation to validate.")
@@ -90,7 +90,7 @@ program
     .command("print")
     .option(
         "-e, --env <string>",
-        "Solana cluster env name",
+        "Safecoin cluster env name",
         "devnet", //mainnet-beta, testnet, devnet
     )
     .option("-r, --rpc <string>", "The endpoint to connect to.")

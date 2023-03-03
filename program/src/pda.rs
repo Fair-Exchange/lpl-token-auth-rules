@@ -1,5 +1,5 @@
 //! The helper functions for the PDA accounts.
-use solana_program::pubkey::Pubkey;
+use safecoin_program::pubkey::Pubkey;
 
 /// The string prefix for Rule Set PDA seeds.
 pub const PREFIX: &str = "rule_set";

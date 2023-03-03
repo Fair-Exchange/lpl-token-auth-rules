@@ -2,17 +2,17 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::ValidateBuilder, InstructionBuilder, ValidateArgs},
     payload::Payload,
     state::{Rule, RuleSetV1},
 };
 
-use solana_program::program_error::ProgramError;
-use solana_program::system_instruction;
-use solana_program_test::{tokio, BanksClientError};
-use solana_sdk::{
+use safecoin_program::program_error::ProgramError;
+use safecoin_program::system_instruction;
+use safecoin_program_test::{tokio, BanksClientError};
+use safecoin_sdk::{
     signature::Signer,
     signer::keypair::Keypair,
     transaction::{Transaction, TransactionError},
@@ -46,7 +46,7 @@ async fn validate_update_rule_state_payer_not_signer_panics() {
     let rule_authority = Keypair::new();
 
     let (rule_set_state_pda, _rule_set_state_pda_bump) =
-        mpl_token_auth_rules::pda::find_rule_set_state_address(
+        lpl_token_auth_rules::pda::find_rule_set_state_address(
             context.payer.pubkey(),
             "test rule_set".to_string(),
             mint,
@@ -111,7 +111,7 @@ async fn validate_update_rule_state_payer_not_provided_fails() {
     let rule_authority = Keypair::new();
 
     let (rule_set_state_pda, _rule_set_state_pda_bump) =
-        mpl_token_auth_rules::pda::find_rule_set_state_address(
+        lpl_token_auth_rules::pda::find_rule_set_state_address(
             context.payer.pubkey(),
             "test rule_set".to_string(),
             mint,
@@ -190,7 +190,7 @@ async fn validate_rule_set_with_uninitialized_pda_fails() {
     let mut context = program_test().start_with_context().await;
 
     // Find RuleSet PDA.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "test rule_set".to_string(),
     );
@@ -226,7 +226,7 @@ async fn validate_rule_set_with_uninitialized_pda_fails() {
 async fn validate_rule_set_with_zero_data_fails() {
     let mut context = program_test().start_with_context().await;
 
-    // Create an account owned by mpl-token-auth-rules.  This isn't a PDA but we expect to fail
+    // Create an account owned by lpl-token-auth-rules.  This isn't a PDA but we expect to fail
     // before the derivation check because the data length is zero.
     let program_owned_account = Keypair::new();
     let rent = context.banks_client.get_rent().await.unwrap();
@@ -236,7 +236,7 @@ async fn validate_rule_set_with_zero_data_fails() {
             &program_owned_account.pubkey(),
             rent.minimum_balance(0),
             0,
-            &mpl_token_auth_rules::ID,
+            &lpl_token_auth_rules::ID,
         )],
         Some(&context.payer.pubkey()),
         &[&context.payer, &program_owned_account],
@@ -276,7 +276,7 @@ async fn validate_rule_set_with_zero_data_fails() {
 async fn validate_rule_set_with_incorrect_data_fails() {
     let mut context = program_test().start_with_context().await;
 
-    // Create an account owned by mpl-token-auth-rules.  This isn't a PDA but we expect to fail
+    // Create an account owned by lpl-token-auth-rules.  This isn't a PDA but we expect to fail
     // before the derivation check because the data will not deserialize properly into a `RuleSet`.
     // The deserialization is done in the processor before the derivation check because the
     // derivation uses the `RuleSet` name and owner from the deserialized data as seeds.
@@ -288,7 +288,7 @@ async fn validate_rule_set_with_incorrect_data_fails() {
             &program_owned_account.pubkey(),
             rent.minimum_balance(1000),
             1000,
-            &mpl_token_auth_rules::ID,
+            &lpl_token_auth_rules::ID,
         )],
         Some(&context.payer.pubkey()),
         &[&context.payer, &program_owned_account],
@@ -352,7 +352,7 @@ async fn validate_update_rule_state_wrong_state_pda_fails() {
 
     // Find RuleSet state PDA using WRONG NAME for seed.
     let (rule_set_state_pda, _rule_set_state_pda_bump) =
-        mpl_token_auth_rules::pda::find_rule_set_state_address(
+        lpl_token_auth_rules::pda::find_rule_set_state_address(
             context.payer.pubkey(),
             "WRONG NAME".to_string(),
             mint,
@@ -478,7 +478,7 @@ async fn validate_update_rule_state_incorrect_auth() {
     let mint = Keypair::new().pubkey();
 
     let (rule_set_state_pda, _rule_set_state_pda_bump) =
-        mpl_token_auth_rules::pda::find_rule_set_state_address(
+        lpl_token_auth_rules::pda::find_rule_set_state_address(
             context.payer.pubkey(),
             "test rule_set".to_string(),
             mint,
@@ -541,7 +541,7 @@ async fn validate_update_rule_state_missing_auth() {
     let mint = Keypair::new().pubkey();
 
     let (rule_set_state_pda, _rule_set_state_pda_bump) =
-        mpl_token_auth_rules::pda::find_rule_set_state_address(
+        lpl_token_auth_rules::pda::find_rule_set_state_address(
             context.payer.pubkey(),
             "test rule_set".to_string(),
             mint,

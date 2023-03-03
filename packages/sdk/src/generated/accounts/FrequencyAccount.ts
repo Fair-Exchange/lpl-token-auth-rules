@@ -6,8 +6,8 @@
  */
 
 import * as beet from '@metaplex-foundation/beet';
-import * as web3 from '@solana/web3.js';
-import * as beetSolana from '@metaplex-foundation/beet-solana';
+import * as web3 from '@safecoin/web3.js';
+import * as beetSafecoin from '@metaplex-foundation/beet-solana';
 import { Key, keyBeet } from '../types/Key';
 
 /**
@@ -79,7 +79,7 @@ export class FrequencyAccount implements FrequencyAccountArgs {
   static gpaBuilder(
     programId: web3.PublicKey = new web3.PublicKey('auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg'),
   ) {
-    return beetSolana.GpaBuilder.fromStruct(programId, frequencyAccountBeet);
+    return beetSafecoin.GpaBuilder.fromStruct(programId, frequencyAccountBeet);
   }
 
   /**

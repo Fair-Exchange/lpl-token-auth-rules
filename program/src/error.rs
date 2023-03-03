@@ -1,6 +1,6 @@
 //! Errors used by the Rule Set program.
 use num_derive::FromPrimitive;
-use solana_program::{
+use safecoin_program::{
     decode_error::DecodeError,
     msg,
     program_error::{PrintProgramError, ProgramError},

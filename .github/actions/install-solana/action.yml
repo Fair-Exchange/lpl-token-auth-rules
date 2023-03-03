@@ -1,39 +1,39 @@
-name: Install Solana
+name: Install Safecoin
 
 inputs:
   solana_version:
-    description: Version of Solana to install
+    description: Version of Safecoin to install
     required: true
 
 runs:
   using: "composite"
   steps:
-    - name: Cache Solana Install
+    - name: Cache Safecoin Install
       if: ${{ !env.ACT }}
-      id: cache-solana-install
+      id: cache-safecoin-install
       uses: actions/cache@v2
       with:
         path: "$HOME/.local/share/solana/install/releases/${{ inputs.solana_version }}"
-        key: ${{ runner.os }}-Solana-v${{ inputs.solana_version  }}
+        key: ${{ runner.os }}-Safecoin-v${{ inputs.solana_version  }}
 
-    - name: Install Solana
-      if: ${{ !env.ACT }} && steps.cache-solana-install.cache-hit != 'true'
+    - name: Install Safecoin
+      if: ${{ !env.ACT }} && steps.cache-safecoin-install.cache-hit != 'true'
       run: | 
         sh -c "$(curl -sSfL https://release.solana.com/v${{ inputs.solana_version }}/install)"
       shell: bash
 
-    - name: Set Active Solana Version 
+    - name: Set Active Safecoin Version 
       run: |
         rm -f "$HOME/.local/share/solana/install/active_release"
         ln -s "$HOME/.local/share/solana/install/releases/${{ inputs.solana_version }}/solana-release" "$HOME/.local/share/solana/install/active_release"
       shell: bash
 
-    - name: Add Solana bin to Path 
+    - name: Add Safecoin bin to Path 
       run: |
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
       shell: bash
 
-    - name: Verify Solana install 
+    - name: Verify Safecoin install 
       run: |
-        solana --version
+        safecoin --version
       shell: bash

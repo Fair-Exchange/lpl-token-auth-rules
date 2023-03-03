@@ -3,7 +3,7 @@
 pub mod utils;
 
 use borsh::BorshSerialize;
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::ValidateBuilder, InstructionBuilder, ValidateArgs},
     payload::{Payload, PayloadType},
@@ -14,9 +14,9 @@ use mpl_token_auth_rules::{
 };
 use rmp_serde::Serializer;
 use serde::Serialize;
-use solana_program::instruction::AccountMeta;
-use solana_program_test::tokio;
-use solana_sdk::{signature::Signer, signer::keypair::Keypair};
+use safecoin_program::instruction::AccountMeta;
+use safecoin_program_test::tokio;
+use safecoin_sdk::{signature::Signer, signer::keypair::Keypair};
 use utils::{cmp_slice, program_test, Operation, PayloadKey};
 
 #[tokio::test]
@@ -110,7 +110,7 @@ async fn test_update_ruleset_data_integrity() {
     // Create RuleSet 2 and update on chain
     // --------------------------------
     let program_owned = Rule::ProgramOwned {
-        program: mpl_token_auth_rules::ID,
+        program: lpl_token_auth_rules::ID,
         field: PayloadKey::Destination.to_string(),
     };
 

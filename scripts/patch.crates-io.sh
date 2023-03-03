@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Patches the SPL crates for developing against a local solana monorepo
+# Patches the SPL crates for developing against a local safecoin monorepo
 #
 
 here="$(dirname "$0")"
@@ -16,7 +16,7 @@ workspace_crates=(
 )
 
 if [[ ! -r "$solana_dir"/scripts/read-cargo-variable.sh ]]; then
-  echo "$solana_dir is not a path to the solana monorepo"
+  echo "$solana_dir is not a path to the safecoin monorepo"
   exit 1
 fi
 
@@ -42,15 +42,15 @@ for crate in "${workspace_crates[@]}"; do
     echo "* patched $crate"
     cat >> "$crate" <<PATCH
 [patch.crates-io]
-solana-clap-utils = {path = "$solana_dir/clap-utils" }
-solana-cli-config = {path = "$solana_dir/cli-config" }
-solana-client = { path = "$solana_dir/client"}
-solana-logger = { path = "$solana_dir/logger"}
-solana-program = { path = "$solana_dir/sdk/program" }
-solana-program-test = { path = "$solana_dir/program-test" }
-solana-remote-wallet = { path = "$solana_dir/remote-wallet"}
-solana-sdk = { path = "$solana_dir/sdk" }
-solana-validator = { path = "$solana_dir/validator"}
+safecoin-clap-utils = {path = "$solana_dir/clap-utils" }
+safecoin-cli-config = {path = "$solana_dir/cli-config" }
+safecoin-client = { path = "$solana_dir/client"}
+safecoin-logger = { path = "$solana_dir/logger"}
+safecoin-program = { path = "$solana_dir/sdk/program" }
+safecoin-program-test = { path = "$solana_dir/program-test" }
+safecoin-remote-wallet = { path = "$solana_dir/remote-wallet"}
+safecoin-sdk = { path = "$solana_dir/sdk" }
+safecoin-validator = { path = "$solana_dir/validator"}
 PATCH
   fi
 done

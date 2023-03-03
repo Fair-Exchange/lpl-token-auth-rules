@@ -9,7 +9,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  SOLANA_VERSION: 1.13.5
+  SAFECOIN_VERSION: 1.13.5
   RUST_TOOLCHAIN: 1.65.0
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - uses: ./.github/actions/install-linux-build-deps
       - uses: ./.github/actions/install-solana
         with:
-          solana_version: ${{ env.SOLANA_VERSION }}
+          solana_version: ${{ env.SAFECOIN_VERSION }}
       - uses: ./.github/actions/install-rust
         with:
           toolchain: ${{ env.RUST_TOOLCHAIN }}

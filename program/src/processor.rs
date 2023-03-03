@@ -19,7 +19,7 @@ use crate::{
     MAX_NAME_LENGTH,
 };
 use borsh::{BorshDeserialize, BorshSerialize};
-use solana_program::{
+use safecoin_program::{
     account_info::AccountInfo,
     entrypoint::ProgramResult,
     msg,

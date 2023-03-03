@@ -7,7 +7,7 @@ use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "serde-with-feature")]
 use serde_with::{As, DisplayFromStr};
-use solana_program::{entrypoint::ProgramResult, pubkey::Pubkey};
+use safecoin_program::{entrypoint::ProgramResult, pubkey::Pubkey};
 use std::collections::HashMap;
 
 /// Version of the `RuleSetRevisionMapV1` struct.

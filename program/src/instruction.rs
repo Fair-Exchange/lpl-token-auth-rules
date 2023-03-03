@@ -1,8 +1,8 @@
 use crate::payload::Payload;
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_token_metadata_context_derive::AccountContext;
+use lpl_token_metadata_context_derive::AccountContext;
 use shank::ShankInstruction;
-use solana_program::{
+use safecoin_program::{
     account_info::AccountInfo,
     instruction::{AccountMeta, Instruction},
 };
@@ -104,11 +104,11 @@ pub enum RuleSetInstruction {
 
 /// Builds a `CreateOrUpdate` instruction.
 impl InstructionBuilder for builders::CreateOrUpdate {
-    fn instruction(&self) -> solana_program::instruction::Instruction {
+    fn instruction(&self) -> safecoin_program::instruction::Instruction {
         let mut accounts = vec![
             AccountMeta::new(self.payer, true),
             AccountMeta::new(self.rule_set_pda, false),
-            AccountMeta::new_readonly(solana_program::system_program::id(), false),
+            AccountMeta::new_readonly(safecoin_program::system_program::id(), false),
         ];
 
         if let Some(buffer_pda) = self.buffer_pda {
@@ -129,11 +129,11 @@ impl InstructionBuilder for builders::CreateOrUpdate {
 
 /// Builds a `Validate` instruction.
 impl InstructionBuilder for builders::Validate {
-    fn instruction(&self) -> solana_program::instruction::Instruction {
+    fn instruction(&self) -> safecoin_program::instruction::Instruction {
         let mut accounts = vec![
             AccountMeta::new_readonly(self.rule_set_pda, false),
             AccountMeta::new_readonly(self.mint, false),
-            AccountMeta::new_readonly(solana_program::system_program::id(), false),
+            AccountMeta::new_readonly(safecoin_program::system_program::id(), false),
         ];
 
         // Add optional account or `crate::ID`.
@@ -171,11 +171,11 @@ impl InstructionBuilder for builders::Validate {
 
 /// Builds a `WriteToBuffer` instruction.
 impl InstructionBuilder for builders::WriteToBuffer {
-    fn instruction(&self) -> solana_program::instruction::Instruction {
+    fn instruction(&self) -> safecoin_program::instruction::Instruction {
         let accounts = vec![
             AccountMeta::new(self.payer, true),
             AccountMeta::new(self.buffer_pda, false),
-            AccountMeta::new_readonly(solana_program::system_program::id(), false),
+            AccountMeta::new_readonly(safecoin_program::system_program::id(), false),
         ];
 
         Instruction {
@@ -190,11 +190,11 @@ impl InstructionBuilder for builders::WriteToBuffer {
 
 /// Builds a `PuffRuleSet` instruction.
 impl InstructionBuilder for builders::PuffRuleSet {
-    fn instruction(&self) -> solana_program::instruction::Instruction {
+    fn instruction(&self) -> safecoin_program::instruction::Instruction {
         let accounts = vec![
             AccountMeta::new(self.payer, true),
             AccountMeta::new(self.rule_set_pda, false),
-            AccountMeta::new_readonly(solana_program::system_program::id(), false),
+            AccountMeta::new_readonly(safecoin_program::system_program::id(), false),
         ];
 
         Instruction {
@@ -218,5 +218,5 @@ pub struct Context<'a, T> {
 /// A trait for building an instruction.
 pub trait InstructionBuilder {
     /// The required function to return the built instruction.
-    fn instruction(&self) -> solana_program::instruction::Instruction;
+    fn instruction(&self) -> safecoin_program::instruction::Instruction;
 }

@@ -5,8 +5,8 @@ import {
     SystemProgram,
     SYSVAR_INSTRUCTIONS_PUBKEY,
     Transaction,
-} from "@solana/web3.js";
-import { createCreateOrUpdateInstruction, createValidateInstruction, Payload, PROGRAM_ID } from "../../../packages/sdk/src/mpl-token-auth-rules";
+} from "@safecoin/web3.js";
+import { createCreateOrUpdateInstruction, createValidateInstruction, Payload, PROGRAM_ID } from "../../../packages/sdk/src/lpl-token-auth-rules";
 import { findRuleSetPDA } from "./pda";
 import { TokenMetadataProgram } from "@metaplex-foundation/js";
 

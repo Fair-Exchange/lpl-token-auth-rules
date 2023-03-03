@@ -8,7 +8,7 @@ use crate::{
     },
 };
 use borsh::BorshDeserialize;
-use solana_program::{
+use safecoin_program::{
     account_info::AccountInfo,
     entrypoint::ProgramResult,
     msg,
@@ -20,10 +20,10 @@ use solana_program::{
     sysvar::Sysvar,
 };
 // TODO: Uncomment this when the syscall is available.
-//use solana_zk_token_sdk::curve25519::curve_syscall_traits::CURVE25519_EDWARDS;
+//use safe_zk_token_sdk::curve25519::curve_syscall_traits::CURVE25519_EDWARDS;
 
 /// Create account almost from scratch, lifted from
-/// <https://github.com/solana-labs/solana-program-library/tree/master/associated-token-account/program/src/processor.rs#L51-L98>
+/// <https://github.com/fair-exchange/safecoin-program-library/tree/master/associated-token-account/program/src/processor.rs#L51-L98>
 #[inline(always)]
 pub fn create_or_allocate_account_raw<'a>(
     program_id: Pubkey,
@@ -70,7 +70,7 @@ pub fn create_or_allocate_account_raw<'a>(
     Ok(())
 }
 
-/// Resize an account using realloc, lifted from Solana Cookbook.
+/// Resize an account using realloc, lifted from Safecoin Cookbook.
 #[inline(always)]
 pub fn resize_or_reallocate_account_raw<'a>(
     target_account: &AccountInfo<'a>,
@@ -126,11 +126,11 @@ pub fn compute_merkle_root(leaf: &Pubkey, merkle_proof: &ProofInfo) -> [u8; 32] 
         if computed_hash <= *proof_element {
             // Hash(current computed hash + current element of the proof).
             computed_hash =
-                solana_program::keccak::hashv(&[&[0x01], &computed_hash, proof_element]).0;
+                safecoin_program::keccak::hashv(&[&[0x01], &computed_hash, proof_element]).0;
         } else {
             // Hash(current element of the proof + current computed hash).
             computed_hash =
-                solana_program::keccak::hashv(&[&[0x01], proof_element, &computed_hash]).0;
+                safecoin_program::keccak::hashv(&[&[0x01], proof_element, &computed_hash]).0;
         }
     }
 
@@ -197,7 +197,7 @@ pub fn is_on_curve(pubkey: &Pubkey) -> bool {
     let mut _validate_result = 0u8;
     // TODO: Uncomment this when the syscall is available.
     // let result = unsafe {
-    //     solana_program::syscalls::sol_curve_validate_point(
+    //     safecoin_program::syscalls::sol_curve_validate_point(
     //         CURVE25519_EDWARDS,
     //         &point as *const u8,
     //         &mut validate_result,

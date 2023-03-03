@@ -2,17 +2,17 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::ValidateBuilder, InstructionBuilder, ValidateArgs},
     payload::Payload,
     pda::find_rule_set_state_address,
     state::{Rule, RuleSetV1},
 };
-use solana_program::program_error::ProgramError;
-use solana_program_test::tokio;
-use solana_program_test::BanksClientError;
-use solana_sdk::{signature::Signer, signer::keypair::Keypair, transaction::TransactionError};
+use safecoin_program::program_error::ProgramError;
+use safecoin_program_test::tokio;
+use safecoin_program_test::BanksClientError;
+use safecoin_sdk::{signature::Signer, signer::keypair::Keypair, transaction::TransactionError};
 use utils::{program_test, Operation};
 
 #[tokio::test]

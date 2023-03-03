@@ -2,14 +2,14 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::ValidateBuilder, InstructionBuilder, ValidateArgs},
     payload::{Payload, PayloadType},
     state::{Rule, RuleSetV1},
 };
-use solana_program_test::tokio;
-use solana_sdk::{
+use safecoin_program_test::tokio;
+use safecoin_sdk::{
     instruction::AccountMeta, signature::Signer, signer::keypair::Keypair, system_instruction,
     transaction::Transaction,
 };
@@ -25,8 +25,8 @@ async fn program_owned_tree() {
     // --------------------------------
     // Create RuleSet
     // --------------------------------
-    // Generate a Merkle tree containing mpl-token-auth-rules as a leaf.
-    let tree = create_test_merkle_tree_from_one_leaf(&mpl_token_auth_rules::ID, 4);
+    // Generate a Merkle tree containing lpl-token-auth-rules as a leaf.
+    let tree = create_test_merkle_tree_from_one_leaf(&lpl_token_auth_rules::ID, 4);
 
     // Create a Rule.
     let rule = Rule::ProgramOwnedTree {
@@ -57,7 +57,7 @@ async fn program_owned_tree() {
     // Create a Keypair to simulate a token mint address.
     let mint = Keypair::new();
 
-    // Create an empty account owned by mpl-token-auth-rules.
+    // Create an empty account owned by lpl-token-auth-rules.
     let program_owned_account = Keypair::new();
     let rent = context.banks_client.get_rent().await.unwrap();
     let tx = Transaction::new_signed_with_payer(
@@ -66,7 +66,7 @@ async fn program_owned_tree() {
             &program_owned_account.pubkey(),
             rent.minimum_balance(0),
             0,
-            &mpl_token_auth_rules::ID,
+            &lpl_token_auth_rules::ID,
         )],
         Some(&context.payer.pubkey()),
         &[&context.payer, &program_owned_account],
@@ -87,7 +87,7 @@ async fn program_owned_tree() {
     assert_eq!(0, on_chain_account.data.len());
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, on_chain_account.owner);
 
     // Store the payload of data to validate against the rule definition.
     let payload = Payload::from([
@@ -161,7 +161,7 @@ async fn program_owned_tree() {
     assert!(on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(spl_token::ID, on_chain_account.owner);
+    assert_eq!(safe_token::ID, on_chain_account.owner);
 
     // Store the payload of data to validate against the rule definition.
     let payload = Payload::from([
@@ -203,7 +203,7 @@ async fn program_owned_tree() {
     // --------------------------------
     // Validate fail program owned with data, but bad proof
     // --------------------------------
-    // Our authority key is going to be an account owned by the mpl-token-auth-rules program.
+    // Our authority key is going to be an account owned by the lpl-token-auth-rules program.
     // Any one will do so for convenience we just use the `RuleSet`.
 
     // Get on-chain account.
@@ -218,7 +218,7 @@ async fn program_owned_tree() {
     assert!(on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, on_chain_account.owner);
 
     // Corrupt the Merkle proof.
     let mut incorrect_proof = tree.proof.clone();
@@ -262,7 +262,7 @@ async fn program_owned_tree() {
     // --------------------------------
     // Validate pass
     // --------------------------------
-    // Our authority key is going to be an account owned by the mpl-token-auth-rules program.
+    // Our authority key is going to be an account owned by the lpl-token-auth-rules program.
     // Any one will do so for convenience we just use the `RuleSet`.
 
     // Get on-chain account.
@@ -277,7 +277,7 @@ async fn program_owned_tree() {
     assert!(on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, on_chain_account.owner);
 
     // Store the payload of data to validate against the rule definition.
     let payload = Payload::from([

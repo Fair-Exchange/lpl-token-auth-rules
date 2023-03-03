@@ -2,7 +2,7 @@
 use crate::error::RuleSetError;
 use borsh::{BorshDeserialize, BorshSerialize};
 use serde::{Deserialize, Serialize};
-use solana_program::{entrypoint::ProgramResult, pubkey::Pubkey};
+use safecoin_program::{entrypoint::ProgramResult, pubkey::Pubkey};
 use std::collections::HashMap;
 
 #[repr(C)]

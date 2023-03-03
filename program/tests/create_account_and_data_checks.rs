@@ -2,7 +2,7 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{
         builders::{CreateOrUpdateBuilder, WriteToBufferBuilder},
@@ -12,8 +12,8 @@ use mpl_token_auth_rules::{
 };
 use rmp_serde::Serializer;
 use serde::Serialize;
-use solana_program_test::tokio;
-use solana_sdk::{signature::Signer, signer::keypair::Keypair, transaction::Transaction};
+use safecoin_program_test::tokio;
+use safecoin_sdk::{signature::Signer, signer::keypair::Keypair, transaction::Transaction};
 use utils::{program_test, Operation};
 
 #[tokio::test]
@@ -41,7 +41,7 @@ async fn create_payer_not_signer_panics() {
         .unwrap();
 
     // Find RuleSet PDA.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         other_payer.pubkey(),
         "test rule_set".to_string(),
     );
@@ -108,13 +108,13 @@ async fn create_rule_set_empty_buffer_fails() {
     // Fail on-chain creation
     // --------------------------------
     // Find RuleSet PDA.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "test rule_set".to_string(),
     );
 
     let (buffer_pda, _buffer_bump) =
-        mpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
+        lpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
 
     // Create a `create` instruction.  We are adding an uninitialized buffer as an extra account,
     // which will be used instead of the `serialized_rule_set` arg that is passed in.  Normally
@@ -184,7 +184,7 @@ async fn create_rule_set_partial_buffer_fails() {
     let serialized_rule_set_chunk = serialized_rule_set.chunks(100).next().unwrap();
 
     let (buffer_pda, _buffer_bump) =
-        mpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
+        lpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
 
     // Create a `write_to_buffer` instruction.
     let write_to_buffer_ix = WriteToBufferBuilder::new()
@@ -216,7 +216,7 @@ async fn create_rule_set_partial_buffer_fails() {
     // Fail on-chain creation
     // --------------------------------
     // Find RuleSet PDA.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "test rule_set".to_string(),
     );
@@ -263,7 +263,7 @@ async fn create_rule_set_empty_rule_set_fails() {
     // Fail on-chain creation
     // --------------------------------
     // Find RuleSet PDA.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "test rule_set".to_string(),
     );
@@ -336,7 +336,7 @@ async fn create_rule_set_name_too_long_fails() {
     // --------------------------------
     // Find RuleSet PDA.  This isn't the correct PDA but we expect to fail because the name in the
     // serialized `RuleSet` is too long.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "test rule_set".to_string(),
     );
@@ -404,7 +404,7 @@ async fn create_rule_set_wrong_owner_fails() {
     // Fail on-chain creation
     // --------------------------------
     // Find RuleSet PDA with DIFFERENT NAME.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "test rule_set".to_string(),
     );
@@ -470,7 +470,7 @@ async fn create_rule_set_buffer_with_different_name_fails() {
 
     // Find buffer PDA.
     let (buffer_pda, _buffer_bump) =
-        mpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
+        lpl_token_auth_rules::pda::find_buffer_address(context.payer.pubkey());
 
     // Write `RuleSet` to buffer.
     let mut overwrite = true;
@@ -510,7 +510,7 @@ async fn create_rule_set_buffer_with_different_name_fails() {
     // Fail on-chain creation
     // --------------------------------
     // Find RuleSet PDA with DIFFERENT NAME.
-    let (rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "DIFFERENT NAME".to_string(),
     );
@@ -641,7 +641,7 @@ async fn create_rule_set_to_wrong_pda_fails() {
     // Fail on-chain creation
     // --------------------------------
     // Find RuleSet PDA using WRONG NAME for seed.
-    let (wrong_rule_set_addr, _rule_set_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
+    let (wrong_rule_set_addr, _rule_set_bump) = lpl_token_auth_rules::pda::find_rule_set_address(
         context.payer.pubkey(),
         "WRONG NAME".to_string(),
     );

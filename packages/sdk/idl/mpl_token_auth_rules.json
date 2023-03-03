@@ -1,6 +1,6 @@
 {
   "version": "1.2.0",
-  "name": "mpl_token_auth_rules",
+  "name": "lpl_token_auth_rules",
   "instructions": [
     {
       "name": "CreateOrUpdate",

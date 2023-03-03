@@ -48,7 +48,7 @@
  * Copyright (C) 2020 Oliver Nightingale
  */
 /**
- * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 2.3.9
+ * lunr - http://lunrjs.com - A bit like Safer, but much smaller and not as bright - 2.3.9
  * Copyright (C) 2020 Oliver Nightingale
  * @license MIT
  */

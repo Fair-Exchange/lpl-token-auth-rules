@@ -2,15 +2,15 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::ValidateBuilder, InstructionBuilder, ValidateArgs},
     payload::{Payload, PayloadType},
     state::{CompareOp, Rule, RuleSetV1},
 };
-use solana_program::{instruction::InstructionError, pubkey, pubkey::Pubkey};
-use solana_program_test::{tokio, ProgramTestContext};
-use solana_sdk::{
+use safecoin_program::{instruction::InstructionError, pubkey, pubkey::Pubkey};
+use safecoin_program_test::{tokio, ProgramTestContext};
+use safecoin_sdk::{
     instruction::AccountMeta,
     signature::Signer,
     signer::keypair::Keypair,
@@ -403,7 +403,7 @@ async fn wallet_to_wallet_unimplemented() {
 
     // Check that error is what we expect.  The `IsWallet` rule currently returns `NotImplemented`.
     match err {
-        solana_program_test::BanksClientError::TransactionError(
+        safecoin_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::NotImplemented as u32);
@@ -423,7 +423,7 @@ async fn wallet_to_prog_owned() {
     // Source key is a wallet.
     let source = Keypair::new();
 
-    // Our destination key is going to be an account owned by the mpl-token-auth-rules program.
+    // Our destination key is going to be an account owned by the lpl-token-auth-rules program.
     // Any one will do so for convenience we just use the RuleSet.
 
     // Get on-chain account.
@@ -438,7 +438,7 @@ async fn wallet_to_prog_owned() {
     assert!(on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, on_chain_account.owner);
 
     let payload = Payload::from([
         (PayloadKey::Amount.to_string(), PayloadType::Number(1)),
@@ -490,7 +490,7 @@ async fn prog_owned_to_prog_owned() {
     // Create a Keypair to simulate a token mint address.
     let mint = Keypair::new();
 
-    // Our source and destination keys are going to be accounts owned by the mpl-token-auth-rules
+    // Our source and destination keys are going to be accounts owned by the lpl-token-auth-rules
     // program.  Any one will do so for convenience we just use two `RuleSets`.
 
     // Get first on-chain account.
@@ -505,7 +505,7 @@ async fn prog_owned_to_prog_owned() {
     assert!(first_on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, first_on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, first_on_chain_account.owner);
 
     // Create destination `RuleSet`.
     let second_rule_set = RuleSetV1::new("second_rule_set".to_string(), context.payer.pubkey());
@@ -526,7 +526,7 @@ async fn prog_owned_to_prog_owned() {
     assert!(second_on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, second_on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, second_on_chain_account.owner);
 
     // Store the payload of data to validate against the rule definition.
     let payload = Payload::from([
@@ -579,7 +579,7 @@ async fn prog_owned_to_wallet() {
     // Create a Keypair to simulate a token mint address.
     let mint = Keypair::new();
 
-    // Our source key is going to be an account owned by the mpl-token-auth-rules program.  Any one
+    // Our source key is going to be an account owned by the lpl-token-auth-rules program.  Any one
     // will do so for convenience we just use the `RuleSet`.
 
     // Get on-chain account.
@@ -594,7 +594,7 @@ async fn prog_owned_to_wallet() {
     assert!(on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, on_chain_account.owner);
 
     // Destination key is a wallet.
     let dest = Keypair::new();
@@ -649,7 +649,7 @@ async fn wrong_amount_fails() {
     // Create a Keypair to simulate a token mint address.
     let mint = Keypair::new();
 
-    // Our source key is going to be an account owned by the mpl-token-auth-rules program.  Any one
+    // Our source key is going to be an account owned by the lpl-token-auth-rules program.  Any one
     // will do so for convenience we just use the `RuleSet`.
 
     // Get on-chain account.
@@ -664,7 +664,7 @@ async fn wrong_amount_fails() {
     assert!(on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, on_chain_account.owner);
 
     // Destination key is a wallet.
     let dest = Keypair::new();
@@ -716,7 +716,7 @@ async fn wrong_amount_fails() {
     // Check that error is what we expect.  Amount was greater than that allowed in the rule so it
     // failed.
     match err {
-        solana_program_test::BanksClientError::TransactionError(
+        safecoin_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::AmountCheckFailed as u32);
@@ -765,7 +765,7 @@ async fn prog_owner_not_on_list_fails() {
     assert!(on_chain_account.data.iter().any(|&x| x != 0));
 
     // Verify account ownership.
-    assert_eq!(spl_token::ID, on_chain_account.owner);
+    assert_eq!(safe_token::ID, on_chain_account.owner);
 
     // Store the payload of data to validate against the rule definition.
     let payload = Payload::from([
@@ -813,7 +813,7 @@ async fn prog_owner_not_on_list_fails() {
 
     // Check that error is what we expect.  Program owner was not on the allow list.
     match err {
-        solana_program_test::BanksClientError::TransactionError(
+        safecoin_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::ProgramOwnedListCheckFailed as u32);
@@ -833,7 +833,7 @@ async fn prog_owned_but_zero_data_length() {
     // Source key is a wallet.
     let source = Keypair::new();
 
-    // Create an account owned by mpl-token-auth-rules.
+    // Create an account owned by lpl-token-auth-rules.
     let program_owned_account = Keypair::new();
     let rent = context.banks_client.get_rent().await.unwrap();
     let tx = Transaction::new_signed_with_payer(
@@ -842,7 +842,7 @@ async fn prog_owned_but_zero_data_length() {
             &program_owned_account.pubkey(),
             rent.minimum_balance(0),
             0,
-            &mpl_token_auth_rules::ID,
+            &lpl_token_auth_rules::ID,
         )],
         Some(&context.payer.pubkey()),
         &[&context.payer, &program_owned_account],
@@ -863,7 +863,7 @@ async fn prog_owned_but_zero_data_length() {
     assert_eq!(0, on_chain_account.data.len());
 
     // Verify account ownership.
-    assert_eq!(mpl_token_auth_rules::ID, on_chain_account.owner);
+    assert_eq!(lpl_token_auth_rules::ID, on_chain_account.owner);
 
     // Store the payload of data to validate against the rule definition.
     let payload = Payload::from([
@@ -912,7 +912,7 @@ async fn prog_owned_but_zero_data_length() {
     // Check that error is what we expect.  Although the program owner is correct the data length is zero
     // so it fails the rule.
     match err {
-        solana_program_test::BanksClientError::TransactionError(
+        safecoin_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::DataIsEmpty as u32);

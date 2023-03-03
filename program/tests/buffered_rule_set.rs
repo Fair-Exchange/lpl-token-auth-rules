@@ -2,7 +2,7 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::ValidateBuilder, InstructionBuilder, ValidateArgs},
     payload::{Payload, PayloadType},
@@ -10,9 +10,9 @@ use mpl_token_auth_rules::{
 };
 use rmp_serde::Serializer;
 use serde::Serialize;
-use solana_program::system_program;
-use solana_program_test::tokio;
-use solana_sdk::{signature::Signer, signer::keypair::Keypair};
+use safecoin_program::system_program;
+use safecoin_program_test::tokio;
+use safecoin_sdk::{signature::Signer, signer::keypair::Keypair};
 use utils::{cmp_slice, program_test, Operation, PayloadKey};
 
 #[tokio::test]

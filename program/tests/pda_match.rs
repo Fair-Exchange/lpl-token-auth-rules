@@ -2,15 +2,15 @@
 
 pub mod utils;
 
-use mpl_token_auth_rules::{
+use lpl_token_auth_rules::{
     error::RuleSetError,
     instruction::{builders::ValidateBuilder, InstructionBuilder, ValidateArgs},
     payload::{Payload, PayloadType, SeedsVec},
     state::{Rule, RuleSetV1},
 };
-use solana_program::{instruction::AccountMeta, pubkey::Pubkey};
-use solana_program_test::tokio;
-use solana_sdk::{signature::Signer, signer::keypair::Keypair};
+use safecoin_program::{instruction::AccountMeta, pubkey::Pubkey};
+use safecoin_program_test::tokio;
+use safecoin_sdk::{signature::Signer, signer::keypair::Keypair};
 use utils::{program_test, Operation, PayloadKey};
 
 #[tokio::test]
@@ -52,10 +52,10 @@ async fn test_pda_match_assumed_owner() {
     let mint = Keypair::new().pubkey();
 
     // Our derived key is going to be an account owned by the
-    // mpl-token-auth-rules program. Any one will do so for convenience
+    // lpl-token-auth-rules program. Any one will do so for convenience
     // we just use the RuleSet.  These are the RuleSet seeds.
     let seeds = vec![
-        mpl_token_auth_rules::pda::PREFIX.as_bytes().to_vec(),
+        lpl_token_auth_rules::pda::PREFIX.as_bytes().to_vec(),
         context.payer.pubkey().as_ref().to_vec(),
         "test rule_set".as_bytes().to_vec(),
     ];
@@ -141,7 +141,7 @@ async fn test_pda_match_specified_owner() {
     // --------------------------------
     // Create a Rule.
     let rule = Rule::PDAMatch {
-        program: Some(mpl_token_auth_rules::ID),
+        program: Some(lpl_token_auth_rules::ID),
         pda_field: PayloadKey::Authority.to_string(),
         seeds_field: PayloadKey::AuthoritySeeds.to_string(),
     };
@@ -214,7 +214,7 @@ async fn test_pda_match_specified_owner() {
     // Store the payload of data to validate against the rule definition, using a correct PDA.
     let vec_of_slices = seeds.iter().map(Vec::as_slice).collect::<Vec<&[u8]>>();
     let (valid_pda, _bump) =
-        Pubkey::find_program_address(&vec_of_slices, &mpl_token_auth_rules::ID);
+        Pubkey::find_program_address(&vec_of_slices, &lpl_token_auth_rules::ID);
 
     let payload = Payload::from([
         (

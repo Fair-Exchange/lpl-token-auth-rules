@@ -26,7 +26,7 @@
 use borsh::{BorshDeserialize, BorshSerialize};
 use num_derive::FromPrimitive;
 use num_traits::FromPrimitive;
-use solana_program::{
+use safecoin_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, program_error::ProgramError,
 };
 
@@ -56,8 +56,8 @@ pub enum Key {
     Frequency,
 }
 
-/// A trait implementing generic functions required by all accounts on Solana.
-pub trait SolanaAccount: BorshSerialize + BorshDeserialize {
+/// A trait implementing generic functions required by all accounts on Safecoin.
+pub trait SafecoinAccount: BorshSerialize + BorshDeserialize {
     /// Get the `Key` for this `Account`.  This key is to be stored in the first byte of the
     /// `Account` data.
     fn key() -> Key;
@@ -88,7 +88,7 @@ pub trait SolanaAccount: BorshSerialize + BorshDeserialize {
     }
 }
 
-trait PrivateSolanaAccountMethods: SolanaAccount {
+trait PrivateSafecoinAccountMethods: SafecoinAccount {
     const KEY_BYTE: usize = 0;
 
     // Check the `Key` byte and the data size to determine if this data represents the correct
@@ -102,4 +102,4 @@ trait PrivateSolanaAccountMethods: SolanaAccount {
     }
 }
 
-impl<T: SolanaAccount> PrivateSolanaAccountMethods for T {}
+impl<T: SafecoinAccount> PrivateSafecoinAccountMethods for T {}

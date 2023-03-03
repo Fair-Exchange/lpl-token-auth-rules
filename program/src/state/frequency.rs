@@ -1,7 +1,7 @@
 use borsh::{BorshDeserialize, BorshSerialize};
 use shank::ShankAccount;
 
-use super::{Key, SolanaAccount};
+use super::{Key, SafecoinAccount};
 
 #[derive(BorshSerialize, BorshDeserialize, PartialEq, Eq, Debug, Clone, ShankAccount)]
 /// An account containing frequency state.
@@ -25,7 +25,7 @@ impl FrequencyAccount {
     }
 }
 
-impl SolanaAccount for FrequencyAccount {
+impl SafecoinAccount for FrequencyAccount {
     fn key() -> Key {
         Key::Frequency
     }

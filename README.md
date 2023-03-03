@@ -1,280 +1,152 @@
-# Metaplex Token Authorization Rules
-A program that provides the ability to create and execute rules to restrict common token operations such as transferring and selling.
+<p align="center">
+  <a href="https://solana.com">
+    <img alt="Safecoin" src="https://raw.githubusercontent.com/Fair-Exchange/safecoinwiki/master/Logos/SafeCoin/SafeCoin-Logo-with-text.png"/>
+  </a>
+</p>
 
-## Overview
-Authorization rules are variants of a `Rule` enum that implements a `validate()` function.
+[![twitter](https://img.shields.io/twitter/follow/safecoins?style=social)](https://twitter.com/safecoins)
 
-There are **Primitive Rules** and **Composed Rules** that are created by combining of one or more primitive rules.
 
-**Primitive Rules** store any accounts or data needed for evaluation, and at runtime will produce a true or false output based on accounts and a well-defined `Payload` that are passed into the `validate()` function.
+# Building
 
-**Composed Rules** return a true or false based on whether any or all of the primitive rules return true.  Composed rules can then be combined into higher-level composed rules that implement more complex boolean logic.  Because of the recursive definition of the `Rule` enum, calling `validate()` on a top-level composed rule will start at the top and validate at every level, down to the component primitive rules.
+## **1. Install rustc, cargo and rustfmt.**
 
-## Environment Setup
-1. Install Rust from https://rustup.rs/
-2. Install Solana from https://docs.solana.com/cli/install-solana-cli-tools#use-solanas-install-tool
-3. Run `yarn install` to install dependencies
-
----
-
-### Build and test the Rust program
-```
-$ cd program/
-$ cargo build-bpf
-$ cargo test-bpf
-$ cd ..
+```bash
+$ curl https://sh.rustup.rs -sSf | sh
+$ source $HOME/.cargo/env
+$ rustup component add rustfmt
 ```
 
----
+Please make sure you are always using the latest stable rust version by running:
 
-### Build the program, generate the JS API, and rebuild IDL (using Shank and Solita)
-```
-$ yarn build:rust
-$ yarn solita
+```bash
+$ rustup update
 ```
 
----
-
-### Build the JS SDK only (must be generated first)
+When building a specific release branch, you should check the rust version in `ci/rust-version.sh` and if necessary, install that version by running:
+```bash
+$ rustup install VERSION
 ```
-$ yarn build:sdk
-```
+Note that if this is not the latest rust version on your machine, cargo commands may require an [override](https://rust-lang.github.io/rustup/overrides.html) in order to use the correct version.
 
----
 
-### Build the program and generate/build the IDL/SDK/docs
-```
-$ yarn build
-```
+On Linux systems you may need to install libssl-dev, pkg-config, zlib1g-dev, etc.  On Ubuntu:
 
----
-
-### Start Amman and run the test script
-Run the following command in a separate shell
-```
-$ amman start
+```bash
+$ sudo apt-get update
+$ sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler
 ```
 
-Then, run the Amman script
-```
-$ yarn amman
-```
+## **2. Download the source code.**
 
-## Examples
-
-### Rust
-**Note: Additional Rust examples can be found in the [program/tests](https://github.com/metaplex-foundation/mpl-token-auth-rules/tree/main/program/tests) directory.**
-```rust
-use mpl_token_auth_rules::{
-    instruction::{
-        builders::{CreateOrUpdateBuilder, ValidateBuilder},
-        CreateOrUpdateArgs, InstructionBuilder, ValidateArgs,
-    },
-    payload::{Payload, PayloadType},
-    state::{CompareOp, Rule, RuleSetV1},
-};
-use num_derive::ToPrimitive;
-use rmp_serde::Serializer;
-use serde::Serialize;
-use solana_client::rpc_client::RpcClient;
-use solana_sdk::{
-    instruction::AccountMeta, native_token::LAMPORTS_PER_SOL, signature::Signer,
-    signer::keypair::Keypair, transaction::Transaction,
-};
-
-#[repr(C)]
-#[derive(ToPrimitive)]
-pub enum Operation {
-    OwnerTransfer,
-    Delegate,
-    SaleTransfer,
-}
-
-impl ToString for Operation {
-    fn to_string(&self) -> String {
-        match self {
-            Operation::OwnerTransfer => "OwnerTransfer".to_string(),
-            Operation::Delegate => "Delegate".to_string(),
-            Operation::SaleTransfer => "SaleTransfer".to_string(),
-        }
-    }
-}
-
-fn main() {
-    let url = "https://api.devnet.solana.com".to_string();
-
-    let rpc_client = RpcClient::new(url);
-
-    let payer = Keypair::new();
-
-    let signature = rpc_client
-        .request_airdrop(&payer.pubkey(), LAMPORTS_PER_SOL)
-        .unwrap();
-
-    loop {
-        let confirmed = rpc_client.confirm_transaction(&signature).unwrap();
-        if confirmed {
-            break;
-        }
-    }
-
-    // --------------------------------
-    // Create RuleSet
-    // --------------------------------
-    // Find RuleSet PDA.
-    let (rule_set_addr, _ruleset_bump) = mpl_token_auth_rules::pda::find_rule_set_address(
-        payer.pubkey(),
-        "test rule_set".to_string(),
-    );
-
-    // Additional signer.
-    let adtl_signer = Keypair::new();
-
-    // Create some rules.
-    let adtl_signer_rule = Rule::AdditionalSigner {
-        account: adtl_signer.pubkey(),
-    };
-
-    let amount_rule = Rule::Amount {
-        amount: 1,
-        operator: CompareOp::LtEq,
-        field: "Amount".to_string(),
-    };
-
-    let overall_rule = Rule::All {
-        rules: vec![adtl_signer_rule, amount_rule],
-    };
-
-    // Create a RuleSet.
-    let mut rule_set = RuleSetV1::new("test rule_set".to_string(), payer.pubkey());
-    rule_set
-        .add(Operation::OwnerTransfer.to_string(), overall_rule)
-        .unwrap();
-
-    println!("{:#?}", rule_set);
-
-    // Serialize the RuleSet using RMP serde.
-    let mut serialized_rule_set = Vec::new();
-    rule_set
-        .serialize(&mut Serializer::new(&mut serialized_rule_set))
-        .unwrap();
-
-    // Create a `create` instruction.
-    let create_ix = CreateOrUpdateBuilder::new()
-        .payer(payer.pubkey())
-        .rule_set_pda(rule_set_addr)
-        .build(CreateOrUpdateArgs::V1 {
-            serialized_rule_set,
-        })
-        .unwrap()
-        .instruction();
-
-    // Add it to a transaction.
-    let latest_blockhash = rpc_client.get_latest_blockhash().unwrap();
-    let create_tx = Transaction::new_signed_with_payer(
-        &[create_ix],
-        Some(&payer.pubkey()),
-        &[&payer],
-        latest_blockhash,
-    );
-
-    // Send and confirm transaction.
-    let signature = rpc_client.send_and_confirm_transaction(&create_tx).unwrap();
-    println!("Create tx signature: {}", signature);
-
-    // --------------------------------
-    // Validate Operation
-    // --------------------------------
-    // Create a Keypair to simulate a token mint address.
-    let mint = Keypair::new().pubkey();
-
-    // Store the payload of data to validate against the rule definition.
-    let payload = Payload::from([("Amount".to_string(), PayloadType::Number(1))]);
-
-    // Create a `validate` instruction with the additional signer.
-    let validate_ix = ValidateBuilder::new()
-        .rule_set_pda(rule_set_addr)
-        .mint(mint)
-        .additional_rule_accounts(vec![AccountMeta::new_readonly(adtl_signer.pubkey(), true)])
-        .build(ValidateArgs::V1 {
-            operation: Operation::OwnerTransfer.to_string(),
-            payload,
-            update_rule_state: false,
-            rule_set_revision: None,
-        })
-        .unwrap()
-        .instruction();
-
-    // Add it to a transaction.
-    let latest_blockhash = rpc_client.get_latest_blockhash().unwrap();
-    let validate_tx = Transaction::new_signed_with_payer(
-        &[validate_ix],
-        Some(&payer.pubkey()),
-        &[&payer, &adtl_signer],
-        latest_blockhash,
-    );
-
-    // Send and confirm transaction.
-    let signature = rpc_client
-        .send_and_confirm_transaction(&validate_tx)
-        .unwrap();
-    println!("Validate tx signature: {}", signature);
-}
+```bash
+$ git clone https://github.com/Fair-Exchange/Safecoin.git
+$ cd Safecoin
 ```
 
-### JavaScript
-**Note: Additional JS examples can be found in the [/cli/](https://github.com/metaplex-foundation/mpl-token-auth-rules/tree/cli) source along with the example rulesets in [/cli/examples/](https://github.com/metaplex-foundation/mpl-token-auth-rules/tree/cli/examples)**
-```js
-import { encode, decode } from '@msgpack/msgpack';
-import { createCreateInstruction, createTokenAuthorizationRules, PREFIX, PROGRAM_ID } from './helpers/mpl-token-auth-rules';
-import { Keypair, Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
+## **3. Build.**
 
-export const findRuleSetPDA = async (payer: PublicKey, name: string) => {
-    return await PublicKey.findProgramAddress(
-        [
-            Buffer.from(PREFIX),
-            payer.toBuffer(),
-            Buffer.from(name),
-        ],
-        PROGRAM_ID,
-    );
-}
-
-export const createTokenAuthorizationRules = async (
-    connection: Connection,
-    payer: Keypair,
-    name: string,
-    data: Uint8Array,
-) => {
-    const ruleSetAddress = await findRuleSetPDA(payer.publicKey, name);
-
-    let createIX = createCreateOrUpdateInstruction(
-        {
-            payer: payer.publicKey,
-            ruleSetPda: ruleSetAddress[0],
-            systemProgram: SystemProgram.programId,
-        },
-        {
-            createOrUpdateArgs: {__kind: "V1", serializedRuleSet: data },
-        },
-        PROGRAM_ID,
-    )
-
-    const tx = new Transaction().add(createIX);
-
-    const { blockhash } = await connection.getLatestBlockhash();
-    tx.recentBlockhash = blockhash;
-    tx.feePayer = payer.publicKey;
-    const sig = await connection.sendTransaction(tx, [payer], { skipPreflight: true });
-    await connection.confirmTransaction(sig, "finalized");
-    return ruleSetAddress[0];
-}
-
-const connection = new Connection("<YOUR_RPC_HERE>", "finalized");
-let payer = Keypair.generate()
-
-// Encode the file using msgpack so the pre-encoded data can be written directly to a Solana program account
-const encoded = encode(JSON.parse(fs.readFileSync("./examples/pubkey_list_match.json")));
-// Create the ruleset
-await createTokenAuthorizationRules(connection, payer, name, encoded);
+```bash
+$ cargo build
 ```
+
+## **4. Run a minimal local cluster.**
+```bash
+$ ./run.sh
+```
+
+# Testing
+
+**Run the test suite:**
+
+```bash
+$ cargo test
+```
+
+### Starting a local testnet
+Start your own testnet locally, instructions are in the [online docs](https://docs.solana.com/cluster/bench-tps).
+
+### Accessing the remote development cluster
+* `devnet` - stable public cluster for development accessible via
+devnet.safecoin.org. Runs 24/7. Learn more about the [public clusters](https://docs.solana.com/clusters)
+
+# Benchmarking
+
+First install the nightly build of rustc. `cargo bench` requires use of the
+unstable features only available in the nightly build.
+
+```bash
+$ rustup install nightly
+```
+
+Run the benchmarks:
+
+```bash
+$ cargo +nightly bench
+```
+
+# Release Process
+
+The release process for this project is described [here](RELEASE.md).
+
+# Code coverage
+
+To generate code coverage statistics:
+
+```bash
+$ scripts/coverage.sh
+$ open target/cov/lcov-local/index.html
+```
+
+Why coverage? While most see coverage as a code quality metric, we see it primarily as a developer
+productivity metric. When a developer makes a change to the codebase, presumably it's a *solution* to
+some problem.  Our unit-test suite is how we encode the set of *problems* the codebase solves. Running
+the test suite should indicate that your change didn't *infringe* on anyone else's solutions. Adding a
+test *protects* your solution from future changes. Say you don't understand why a line of code exists,
+try deleting it and running the unit-tests. The nearest test failure should tell you what problem
+was solved by that code. If no test fails, go ahead and submit a Pull Request that asks, "what
+problem is solved by this code?" On the other hand, if a test does fail and you can think of a
+better way to solve the same problem, a Pull Request with your solution would most certainly be
+welcome! Likewise, if rewriting a test can better communicate what code it's protecting, please
+send us that patch!
+
+# Disclaimer
+
+All claims, content, designs, algorithms, estimates, roadmaps,
+specifications, and performance measurements described in this project
+are done with the Solana Foundation's ("SF") best efforts. It is up to
+the reader to check and validate their accuracy and truthfulness.
+Furthermore nothing in this project constitutes a solicitation for
+investment.
+
+Any content produced by SF or developer resources that SF provides, are
+for educational and inspiration purposes only. SF does not encourage,
+induce or sanction the deployment, integration or use of any such
+applications (including the code comprising the Safecoin blockchain
+protocol) in violation of applicable laws or regulations and hereby
+prohibits any such deployment, integration or use. This includes use of
+any such applications by the reader (a) in violation of export control
+or sanctions laws of the United States or any other applicable
+jurisdiction, (b) if the reader is located in or ordinarily resident in
+a country or territory subject to comprehensive sanctions administered
+by the U.S. Office of Foreign Assets Control (OFAC), or (c) if the
+reader is or is working on behalf of a Specially Designated National
+(SDN) or a person subject to similar blocking or denied party
+prohibitions.
+
+The reader should be aware that U.S. export control and sanctions laws
+prohibit U.S. persons (and other persons that are subject to such laws)
+from transacting with persons in certain countries and territories or
+that are on the SDN list. As a project based primarily on open-source
+software, it is possible that such sanctioned persons may nevertheless
+bypass prohibitions, obtain the code comprising the Safecoin blockchain
+protocol (or other project code or applications) and deploy, integrate,
+or otherwise use it. Accordingly, there is a risk to individuals that
+other persons using the Safecoin blockchain protocol may be sanctioned
+persons and that transactions with such persons would be a violation of
+U.S. export controls and sanctions law. This risk applies to
+individuals, organizations, and other ecosystem participants that
+deploy, integrate, or use the Safecoin blockchain protocol code directly
+(e.g., as a node operator), and individuals that transact on the Safecoin
+blockchain through light clients, third party interfaces, and/or wallet
+software.
