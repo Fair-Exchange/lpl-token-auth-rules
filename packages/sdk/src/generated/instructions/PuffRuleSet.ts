@@ -63,7 +63,7 @@ export const puffRuleSetInstructionDiscriminator = 3;
 export function createPuffRuleSetInstruction(
   accounts: PuffRuleSetInstructionAccounts,
   args: PuffRuleSetInstructionArgs,
-  programId = new web3.PublicKey('auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg'),
+  programId = new web3.PublicKey('autNTWWsmgHkTc9xGwaED2K7UMXB1YurFEuwiCKXpS9'),
 ) {
   const [data] = PuffRuleSetStruct.serialize({
     instructionDiscriminator: puffRuleSetInstructionDiscriminator,

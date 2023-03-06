@@ -19,4 +19,4 @@ pub use safecoin_program;
 /// Max name length for any of the names used in this crate.
 pub const MAX_NAME_LENGTH: usize = 32;
 
-safecoin_program::declare_id!("auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg");
+safecoin_program::declare_id!("autNTWWsmgHkTc9xGwaED2K7UMXB1YurFEuwiCKXpS9");

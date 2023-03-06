@@ -30,7 +30,7 @@ const RULE_SET_NAME: &str = "Metaplex Royalty RuleSet Dev";
 // --------------------------------
 const ROOSTER_PROGRAM_ID: Pubkey = pubkey!("Roostrnex2Z9Y2XZC49sFAdZARP8E4iFpEnZC5QJWdz");
 const TOKEN_METADATA_PROGRAM_ID: Pubkey = pubkey!("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
-const TOKEN_AUTH_RULES_ID: Pubkey = pubkey!("auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg");
+const TOKEN_AUTH_RULES_ID: Pubkey = pubkey!("autNTWWsmgHkTc9xGwaED2K7UMXB1YurFEuwiCKXpS9");
 
 const TRANSFER_PROGRAM_BASE_ALLOW_LIST: [Pubkey; 3] = [
     TOKEN_METADATA_PROGRAM_ID,

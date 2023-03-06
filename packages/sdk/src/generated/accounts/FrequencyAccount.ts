@@ -77,7 +77,7 @@ export class FrequencyAccount implements FrequencyAccountArgs {
    * @param programId - the program that owns the accounts we are filtering
    */
   static gpaBuilder(
-    programId: web3.PublicKey = new web3.PublicKey('auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg'),
+    programId: web3.PublicKey = new web3.PublicKey('autNTWWsmgHkTc9xGwaED2K7UMXB1YurFEuwiCKXpS9'),
   ) {
     return beetSafecoin.GpaBuilder.fromStruct(programId, frequencyAccountBeet);
   }
