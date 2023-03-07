@@ -9,7 +9,7 @@ use lpl_token_auth_rules::{
 };
 use rmp_serde::Serializer;
 use serde::Serialize;
-use safecoin_program_test::tokio;
+use solana_program_test::tokio;
 use safecoin_sdk::{signature::Signer, signer::keypair::Keypair, transaction::Transaction};
 use utils::{program_test, Operation};
 

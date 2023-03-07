@@ -14,9 +14,9 @@ pub mod state;
 #[deny(missing_docs)]
 pub mod utils;
 
-pub use safecoin_program;
+pub use solana_program;
 
 /// Max name length for any of the names used in this crate.
 pub const MAX_NAME_LENGTH: usize = 32;
 
-safecoin_program::declare_id!("autNTWWsmgHkTc9xGwaED2K7UMXB1YurFEuwiCKXpS9");
+solana_program::declare_id!("autNTWWsmgHkTc9xGwaED2K7UMXB1YurFEuwiCKXpS9");

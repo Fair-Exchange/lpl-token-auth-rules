@@ -8,8 +8,8 @@ use lpl_token_auth_rules::{
     payload::{Payload, PayloadType},
     state::{CompareOp, Rule, RuleSetV1},
 };
-use safecoin_program::{instruction::InstructionError, pubkey, pubkey::Pubkey};
-use safecoin_program_test::{tokio, ProgramTestContext};
+use solana_program::{instruction::InstructionError, pubkey, pubkey::Pubkey};
+use solana_program_test::{tokio, ProgramTestContext};
 use safecoin_sdk::{
     instruction::AccountMeta,
     signature::Signer,
@@ -414,7 +414,7 @@ async fn wallet_to_wallet_unimplemented() {
 
     // Check that error is what we expect.  The `IsWallet` rule currently returns `NotImplemented`.
     match err {
-        safecoin_program_test::BanksClientError::TransactionError(
+        solana_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::NotImplemented as u32);
@@ -567,7 +567,7 @@ async fn wallet_to_prog_owned_missing_namespace() {
 
     // Check that error is what we expect.  Program owner was not on the allow list.
     match err {
-        safecoin_program_test::BanksClientError::TransactionError(
+        solana_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::OperationNotFound as u32);
@@ -650,7 +650,7 @@ async fn wallet_to_prog_owned_no_default() {
 
     // Check that error is what we expect.  Program owner was not on the allow list.
     match err {
-        safecoin_program_test::BanksClientError::TransactionError(
+        solana_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::OperationNotFound as u32);
@@ -893,7 +893,7 @@ async fn wrong_amount_fails() {
     // Check that error is what we expect.  Amount was greater than that allowed in the rule so it
     // failed.
     match err {
-        safecoin_program_test::BanksClientError::TransactionError(
+        solana_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::AmountCheckFailed as u32);
@@ -990,7 +990,7 @@ async fn prog_owner_not_on_list_fails() {
 
     // Check that error is what we expect.  Program owner was not on the allow list.
     match err {
-        safecoin_program_test::BanksClientError::TransactionError(
+        solana_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::ProgramOwnedListCheckFailed as u32);
@@ -1089,7 +1089,7 @@ async fn prog_owned_but_zero_data_length() {
     // Check that error is what we expect.  Although the program owner is correct the data length is zero
     // so it fails the rule.
     match err {
-        safecoin_program_test::BanksClientError::TransactionError(
+        solana_program_test::BanksClientError::TransactionError(
             TransactionError::InstructionError(_, InstructionError::Custom(error)),
         ) => {
             assert_eq!(error, RuleSetError::DataIsEmpty as u32);

@@ -10,7 +10,7 @@ use lpl_token_auth_rules::{
     payload::{Payload, PayloadType},
     state::{Rule, RuleSetV1},
 };
-use safecoin_program_test::tokio;
+use solana_program_test::tokio;
 use safecoin_sdk::{
     instruction::AccountMeta, signature::Signer, signer::keypair::Keypair, system_instruction,
     transaction::Transaction,

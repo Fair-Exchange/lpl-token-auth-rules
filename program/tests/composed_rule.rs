@@ -9,8 +9,8 @@ use lpl_token_auth_rules::{
     state::{CompareOp, Rule, RuleSetV1},
 };
 
-use safecoin_program::instruction::AccountMeta;
-use safecoin_program_test::tokio;
+use solana_program::instruction::AccountMeta;
+use solana_program_test::tokio;
 use safecoin_sdk::{signature::Signer, signer::keypair::Keypair};
 use utils::{program_test, Operation, PayloadKey};
 

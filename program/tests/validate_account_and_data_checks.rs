@@ -9,9 +9,9 @@ use lpl_token_auth_rules::{
     state::{Rule, RuleSetV1},
 };
 
-use safecoin_program::program_error::ProgramError;
-use safecoin_program::system_instruction;
-use safecoin_program_test::{tokio, BanksClientError};
+use solana_program::program_error::ProgramError;
+use solana_program::system_instruction;
+use solana_program_test::{tokio, BanksClientError};
 use safecoin_sdk::{
     signature::Signer,
     signer::keypair::Keypair,

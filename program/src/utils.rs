@@ -8,7 +8,7 @@ use crate::{
     },
 };
 use borsh::BorshDeserialize;
-use safecoin_program::{
+use solana_program::{
     account_info::AccountInfo,
     entrypoint::ProgramResult,
     msg,
@@ -126,11 +126,11 @@ pub fn compute_merkle_root(leaf: &Pubkey, merkle_proof: &ProofInfo) -> [u8; 32] 
         if computed_hash <= *proof_element {
             // Hash(current computed hash + current element of the proof).
             computed_hash =
-                safecoin_program::keccak::hashv(&[&[0x01], &computed_hash, proof_element]).0;
+                solana_program::keccak::hashv(&[&[0x01], &computed_hash, proof_element]).0;
         } else {
             // Hash(current element of the proof + current computed hash).
             computed_hash =
-                safecoin_program::keccak::hashv(&[&[0x01], proof_element, &computed_hash]).0;
+                solana_program::keccak::hashv(&[&[0x01], proof_element, &computed_hash]).0;
         }
     }
 
@@ -197,7 +197,7 @@ pub fn is_on_curve(pubkey: &Pubkey) -> bool {
     let mut _validate_result = 0u8;
     // TODO: Uncomment this when the syscall is available.
     // let result = unsafe {
-    //     safecoin_program::syscalls::sol_curve_validate_point(
+    //     solana_program::syscalls::sol_curve_validate_point(
     //         CURVE25519_EDWARDS,
     //         &point as *const u8,
     //         &mut validate_result,

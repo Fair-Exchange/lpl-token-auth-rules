@@ -8,8 +8,8 @@ use lpl_token_auth_rules::{
 };
 use rmp_serde::Serializer;
 use serde::Serialize;
-use safecoin_program::{instruction::Instruction, pubkey::Pubkey};
-use safecoin_program_test::{BanksClientError, ProgramTest, ProgramTestContext};
+use solana_program::{instruction::Instruction, pubkey::Pubkey};
+use solana_program_test::{BanksClientError, ProgramTest, ProgramTestContext};
 use safecoin_sdk::{
     compute_budget::ComputeBudgetInstruction, program_pack::Pack, signature::Signer,
     signer::keypair::Keypair, system_instruction, transaction::Transaction,
@@ -540,10 +540,10 @@ macro_rules! assert_custom_error {
         );
 
         match $error {
-            safecoin_program_test::BanksClientError::TransactionError(
+            solana_program_test::BanksClientError::TransactionError(
                 safecoin_sdk::transaction::TransactionError::InstructionError(
                     0,
-                    safecoin_program::instruction::InstructionError::Custom(x),
+                    solana_program::instruction::InstructionError::Custom(x),
                 ),
             ) => match num_traits::FromPrimitive::from_i32(x as i32) {
                 Some($matcher) => assert!(true),
@@ -654,10 +654,10 @@ pub fn create_test_merkle_tree_from_one_leaf(leaf: &Pubkey, levels: usize) -> Me
     for i in 0..levels {
         if computed_hash <= proof[i] {
             // Hash(current computed hash + current element of the proof).
-            computed_hash = safecoin_program::keccak::hashv(&[&[0x01], &computed_hash, &proof[i]]).0;
+            computed_hash = solana_program::keccak::hashv(&[&[0x01], &computed_hash, &proof[i]]).0;
         } else {
             // Hash(current element of the proof + current computed hash).
-            computed_hash = safecoin_program::keccak::hashv(&[&[0x01], &proof[i], &computed_hash]).0;
+            computed_hash = solana_program::keccak::hashv(&[&[0x01], &proof[i], &computed_hash]).0;
         }
 
         proof.push(computed_hash)
