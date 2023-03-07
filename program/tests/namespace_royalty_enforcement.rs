@@ -10,7 +10,7 @@ use lpl_token_auth_rules::{
 };
 use solana_program::{instruction::InstructionError, pubkey, pubkey::Pubkey};
 use solana_program_test::{tokio, ProgramTestContext};
-use safecoin_sdk::{
+use solana_sdk::{
     instruction::AccountMeta,
     signature::Signer,
     signer::keypair::Keypair,

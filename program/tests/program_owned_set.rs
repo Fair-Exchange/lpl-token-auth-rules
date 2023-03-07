@@ -11,7 +11,7 @@ use lpl_token_auth_rules::{
     state::{Rule, RuleSetV1},
 };
 use solana_program_test::tokio;
-use safecoin_sdk::{
+use solana_sdk::{
     instruction::AccountMeta, signature::Signer, signer::keypair::Keypair, system_instruction,
     transaction::Transaction,
 };

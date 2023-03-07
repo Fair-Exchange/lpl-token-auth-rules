@@ -12,7 +12,7 @@ use lpl_token_auth_rules::{
 use solana_program::program_error::ProgramError;
 use solana_program::system_instruction;
 use solana_program_test::{tokio, BanksClientError};
-use safecoin_sdk::{
+use solana_sdk::{
     signature::Signer,
     signer::keypair::Keypair,
     transaction::{Transaction, TransactionError},

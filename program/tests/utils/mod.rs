@@ -10,7 +10,7 @@ use rmp_serde::Serializer;
 use serde::Serialize;
 use solana_program::{instruction::Instruction, pubkey::Pubkey};
 use solana_program_test::{BanksClientError, ProgramTest, ProgramTestContext};
-use safecoin_sdk::{
+use solana_sdk::{
     compute_budget::ComputeBudgetInstruction, program_pack::Pack, signature::Signer,
     signer::keypair::Keypair, system_instruction, transaction::Transaction,
 };
@@ -541,7 +541,7 @@ macro_rules! assert_custom_error {
 
         match $error {
             solana_program_test::BanksClientError::TransactionError(
-                safecoin_sdk::transaction::TransactionError::InstructionError(
+                solana_sdk::transaction::TransactionError::InstructionError(
                     0,
                     solana_program::instruction::InstructionError::Custom(x),
                 ),

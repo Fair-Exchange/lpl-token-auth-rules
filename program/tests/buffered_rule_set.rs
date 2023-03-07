@@ -12,7 +12,7 @@ use rmp_serde::Serializer;
 use serde::Serialize;
 use solana_program::system_program;
 use solana_program_test::tokio;
-use safecoin_sdk::{signature::Signer, signer::keypair::Keypair};
+use solana_sdk::{signature::Signer, signer::keypair::Keypair};
 use utils::{cmp_slice, program_test, Operation, PayloadKey};
 
 #[tokio::test]

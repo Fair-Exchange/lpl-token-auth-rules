@@ -9,7 +9,7 @@ use lpl_token_auth_rules::{
     state::{Rule, RuleSetV1},
 };
 use solana_program_test::tokio;
-use safecoin_sdk::{signature::Signer, signer::keypair::Keypair};
+use solana_sdk::{signature::Signer, signer::keypair::Keypair};
 use utils::{program_test, Operation, PayloadKey};
 
 #[tokio::test]
