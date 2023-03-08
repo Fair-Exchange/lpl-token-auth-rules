@@ -2914,7 +2914,7 @@ dependencies = [
 
 [[package]]
 name = "safe-memo"
-version = "3.0.7"
+version = "3.0.8"
 dependencies = [
  "safecoin-program 1.14.17",
 ]
@@ -2930,7 +2930,7 @@ dependencies = [
 
 [[package]]
 name = "safe-token"
-version = "3.5.0"
+version = "3.5.1"
 dependencies = [
  "arrayref",
  "bytemuck",
@@ -2943,7 +2943,7 @@ dependencies = [
 
 [[package]]
 name = "safe-token"
-version = "3.5.0"
+version = "3.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "447ce3b073018d40b395ef0dc68b67efacde57abb540cdd6f028d94c6725ce0d"
 dependencies = [

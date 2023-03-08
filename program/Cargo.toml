@@ -32,7 +32,7 @@ assert_matches = "1.5.0"
 safecoin-program-test = {path = "../../Safecoin/program-test", version = "1.14.17"}
 safecoin-sdk = {path = "../../Safecoin/sdk", version = "1.14.17"}
 safecoin-logger = {path = "../../Safecoin/logger", version = "1.14.17"}
-safe-token = { version = "3.5.0", features = [ "no-entrypoint" ] }
+safe-token = { version = "3.5.1", features = [ "no-entrypoint" ] }
 serde_json = "1.0.87"
 safe-associated-token-account = { version = "1.1.1", features = ["no-entrypoint"] }
 
