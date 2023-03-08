@@ -2914,14 +2914,14 @@ dependencies = [
 
 [[package]]
 name = "safe-memo"
-version = "3.0.8"
+version = "3.0.9"
 dependencies = [
  "safecoin-program 1.14.17",
 ]
 
 [[package]]
 name = "safe-memo"
-version = "3.0.8"
+version = "3.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c5323d062f178f34d5a2ef74ac19b8460b00c0ea78ec4514e8362ba890705201"
 dependencies = [
