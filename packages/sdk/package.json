@@ -1,5 +1,5 @@
 {
-  "name": "lpl-token-auth-rules",
+  "name": "@safecoin/lpl-token-auth-rules",
   "version": "0.1.0",
   "description": "",
   "main": "dist/src/lpl-token-auth-rules.js",
