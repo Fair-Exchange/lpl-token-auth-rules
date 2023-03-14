@@ -1,4 +1,4 @@
-import { initCusper } from '@metaplex-foundation/cusper';
+import { initCusper } from '@safecoin/cusper';
 // @ts-ignore
 import { errorFromCode } from './generated';
 

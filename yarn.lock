@@ -99,13 +99,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/amman-client@npm:^0.1.0":
+"@safecoin/amman-client@npm:^0.1.0":
   version: 0.1.0
-  resolution: "@metaplex-foundation/amman-client@npm:0.1.0"
+  resolution: "@safecoin/amman-client@npm:0.1.0"
   dependencies:
-    "@metaplex-foundation/cusper": ^0.0.2
-    "@solana/spl-token-registry": ^0.2.2405
-    "@solana/web3.js": ^1.43.4
+    "@safecoin/cusper": ^0.0.2
+    "@safecoin/safe-token-registry": ^0.2.2405
+    "@safecoin/web3.js": ^1.43.4
     bn.js: ^5.2.1
     debug: ^4.3.3
     js-sha3: ^0.8.0
@@ -115,13 +115,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/amman@npm:^0.10.0":
+"@safecoin/amman@npm:^0.10.0":
   version: 0.10.0
-  resolution: "@metaplex-foundation/amman@npm:0.10.0"
+  resolution: "@safecoin/amman@npm:0.10.0"
   dependencies:
-    "@metaplex-foundation/amman-client": ^0.1.0
-    "@solana/spl-token": ^0.2.0
-    "@solana/web3.js": ^1.43.4
+    "@safecoin/amman-client": ^0.1.0
+    "@safecoin/safe-token": ^0.2.0
+    "@safecoin/web3.js": ^1.43.4
     ansi-colors: ^4.1.1
     bn.js: ^5.2.0
     buffer-hexdump: ^1.0.0
@@ -143,21 +143,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/beet-solana@npm:^0.3.0":
+"@safecoin/beet-safecoin@npm:^0.3.0":
   version: 0.3.0
-  resolution: "@metaplex-foundation/beet-solana@npm:0.3.0"
+  resolution: "@safecoin/beet-safecoin@npm:0.3.0"
   dependencies:
-    "@metaplex-foundation/beet": ">=0.1.0"
-    "@solana/web3.js": ^1.44.0
+    "@safecoin/beet": ">=0.1.0"
+    "@safecoin/web3.js": ^1.44.0
     bs58: ^5.0.0
     debug: ^4.3.4
   checksum: 53395a92fee1e201857ce37ff5a813bd11fda22eed1c0425b83a220980c5c42660e1bdf8f2d7326bacb2eae28ed79618b12fe076b42229459cd0dd4e23e8db31
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/beet@npm:>=0.1.0, @metaplex-foundation/beet@npm:^0.4.0":
+"@safecoin/beet@npm:>=0.1.0, @safecoin/beet@npm:^0.4.0":
   version: 0.4.0
-  resolution: "@metaplex-foundation/beet@npm:0.4.0"
+  resolution: "@safecoin/beet@npm:0.4.0"
   dependencies:
     ansicolors: ^0.3.2
     bn.js: ^5.2.0
@@ -166,16 +166,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/cusper@npm:^0.0.2":
+"@safecoin/cusper@npm:^0.0.2":
   version: 0.0.2
-  resolution: "@metaplex-foundation/cusper@npm:0.0.2"
+  resolution: "@safecoin/cusper@npm:0.0.2"
   checksum: d157953baf42a2a012cdeb809c1785f29a44d80a3b5a3841c930baeb12ac6ddcf37f1a15eded4dce20d66f7bc8f23bedb87e905758df721e274bfcd816e70ba1
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/rustbin@npm:^0.3.0":
+"@safecoin/rustbin@npm:^0.3.0":
   version: 0.3.1
-  resolution: "@metaplex-foundation/rustbin@npm:0.3.1"
+  resolution: "@safecoin/rustbin@npm:0.3.1"
   dependencies:
     debug: ^4.3.3
     semver: ^7.3.7
@@ -185,14 +185,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaplex-foundation/solita@npm:^0.12.2":
+"@safecoin/solita@npm:^0.12.2":
   version: 0.12.2
-  resolution: "@metaplex-foundation/solita@npm:0.12.2"
+  resolution: "@safecoin/solita@npm:0.12.2"
   dependencies:
-    "@metaplex-foundation/beet": ^0.4.0
-    "@metaplex-foundation/beet-solana": ^0.3.0
-    "@metaplex-foundation/rustbin": ^0.3.0
-    "@solana/web3.js": ^1.36.0
+    "@safecoin/beet": ^0.4.0
+    "@safecoin/beet-safecoin": ^0.3.0
+    "@safecoin/rustbin": ^0.3.0
+    "@safecoin/web3.js": ^1.36.0
     camelcase: ^6.2.1
     debug: ^4.3.3
     js-sha256: ^0.9.0
@@ -282,55 +282,55 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/buffer-layout-utils@npm:^0.2.0":
+"@safecoin/buffer-layout-utils@npm:^0.2.0":
   version: 0.2.0
-  resolution: "@solana/buffer-layout-utils@npm:0.2.0"
+  resolution: "@safecoin/buffer-layout-utils@npm:0.2.0"
   dependencies:
-    "@solana/buffer-layout": ^4.0.0
-    "@solana/web3.js": ^1.32.0
+    "@safecoin/buffer-layout": ^4.0.0
+    "@safecoin/web3.js": ^1.32.0
     bigint-buffer: ^1.1.5
     bignumber.js: ^9.0.1
   checksum: 9284242245b18b49577195ba7548263850be865a4a2d183944fa01bb76382039db589aab8473698e9bb734b515ada9b4d70db0a72e341c5d567c59b83d6d0840
   languageName: node
   linkType: hard
 
-"@solana/buffer-layout@npm:^4.0.0":
+"@safecoin/buffer-layout@npm:^4.0.0":
   version: 4.0.0
-  resolution: "@solana/buffer-layout@npm:4.0.0"
+  resolution: "@safecoin/buffer-layout@npm:4.0.0"
   dependencies:
     buffer: ~6.0.3
   checksum: f244e9c42425477ded1fb5295252d7cb093cd591a14552e89271000ad5c01a5b5c0f2f83c7253d640414b600d4b31d95e9f3fcaec6d8280d3d6cb7f3d0a88565
   languageName: node
   linkType: hard
 
-"@solana/spl-token-registry@npm:^0.2.2405":
+"@safecoin/safe-token-registry@npm:^0.2.2405":
   version: 0.2.4574
-  resolution: "@solana/spl-token-registry@npm:0.2.4574"
+  resolution: "@safecoin/safe-token-registry@npm:0.2.4574"
   dependencies:
     cross-fetch: 3.0.6
   checksum: a56d855dcfe719a222436f74a144617ebf5dd8711bf366ff935148bb760ae2712a8249e1d14d3193dcad336186dbab5d100382c0a30eb69f5feb46aa1c11fc38
   languageName: node
   linkType: hard
 
-"@solana/spl-token@npm:^0.2.0":
+"@safecoin/safe-token@npm:^0.2.0":
   version: 0.2.0
-  resolution: "@solana/spl-token@npm:0.2.0"
+  resolution: "@safecoin/safe-token@npm:0.2.0"
   dependencies:
-    "@solana/buffer-layout": ^4.0.0
-    "@solana/buffer-layout-utils": ^0.2.0
-    "@solana/web3.js": ^1.32.0
+    "@safecoin/buffer-layout": ^4.0.0
+    "@safecoin/buffer-layout-utils": ^0.2.0
+    "@safecoin/web3.js": ^1.32.0
     start-server-and-test: ^1.14.0
   checksum: c07f32428985ae67f97ed95d31d9e5c6d9317d26fa81b5df6c6f664152c48c9ad08af32a20d8c6667c636bfc22950a261c5cf57457820cba16c488640169b2f6
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.32.0, @solana/web3.js@npm:^1.36.0, @solana/web3.js@npm:^1.43.4, @solana/web3.js@npm:^1.44.0, @solana/web3.js@npm:^1.48.0":
+"@safecoin/web3.js@npm:^1.32.0, @safecoin/web3.js@npm:^1.36.0, @safecoin/web3.js@npm:^1.43.4, @safecoin/web3.js@npm:^1.44.0, @safecoin/web3.js@npm:^1.48.0":
   version: 1.48.0
-  resolution: "@solana/web3.js@npm:1.48.0"
+  resolution: "@safecoin/web3.js@npm:1.48.0"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@ethersproject/sha2": ^5.5.0
-    "@solana/buffer-layout": ^4.0.0
+    "@safecoin/buffer-layout": ^4.0.0
     bigint-buffer: ^1.1.5
     bn.js: ^5.0.0
     borsh: ^0.7.0
@@ -2399,8 +2399,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "my-program-name-workspace@workspace:."
   dependencies:
-    "@metaplex-foundation/amman": ^0.10.0
-    "@metaplex-foundation/solita": ^0.12.2
+    "@safecoin/amman": ^0.10.0
+    "@safecoin/solita": ^0.12.2
     "@typescript-eslint/eslint-plugin": ^5.30.7
     "@typescript-eslint/parser": ^5.30.7
     esbuild-runner: ^2.2.1
@@ -2415,11 +2415,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "my-program-name@workspace:packages/sdk"
   dependencies:
-    "@metaplex-foundation/beet": ^0.4.0
-    "@metaplex-foundation/beet-solana": ^0.3.0
-    "@metaplex-foundation/cusper": ^0.0.2
-    "@solana/spl-token": ^0.2.0
-    "@solana/web3.js": ^1.48.0
+    "@safecoin/beet": ^0.4.0
+    "@safecoin/beet-safecoin": ^0.3.0
+    "@safecoin/cusper": ^0.0.2
+    "@safecoin/safe-token": ^0.2.0
+    "@safecoin/web3.js": ^1.48.0
     eslint: ^8.20.0
     rimraf: ^3.0.2
     supports-color: ^9.2.2

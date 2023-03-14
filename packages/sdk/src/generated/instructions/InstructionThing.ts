@@ -5,9 +5,9 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as splToken from '@solana/spl-token';
-import * as beet from '@metaplex-foundation/beet';
-import * as web3 from '@solana/web3.js';
+import * as splToken from '@safecoin/safe-token';
+import * as beet from '@safecoin/beet';
+import * as web3 from '@safecoin/web3.js';
 import { InstructionThingArgs, instructionThingArgsBeet } from '../types/InstructionThingArgs';
 
 /**
