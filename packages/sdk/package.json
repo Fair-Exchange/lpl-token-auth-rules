@@ -1,9 +1,9 @@
 {
-  "name": "my-program-name",
+  "name": "lpl-token-auth-rules",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/src/my-program-name.js",
-  "types": "dist/src/my-program-name.d.ts",
+  "main": "dist/src/lpl-token-auth-rules.js",
+  "types": "dist/src/lpl-token-auth-rules.d.ts",
   "scripts": {
     "check:publish-ready": "yarn build && yarn test",
     "postversion": "git add package.json && git commit -m \\\"chore: update $npm_package_name to v$npm_package_version\\\" && git tag $npm_package_name@$npm_package_version",
@@ -23,16 +23,16 @@
     "registry": "https://registry.npmjs.org"
   },
   "keywords": [
-    "solana",
+    "safecoin",
     "blockchain"
   ],
   "license": "MIT",
   "dependencies": {
     "@safecoin/beet": "^0.4.0",
     "@safecoin/beet-safecoin": "^0.3.0",
-    "@safecoin/cusper": "^0.0.2",
+    "@safecoin/cusper": "^0.0.1",
     "@safecoin/safe-token": "^0.2.0",
-    "@safecoin/web3.js": "^1.48.0"
+    "@safecoin/web3.js": "1.50.1"
   },
   "devDependencies": {
     "eslint": "^8.20.0",
